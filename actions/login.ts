@@ -4,6 +4,7 @@ import { LoginSchema } from "@/schemas";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import bcrypt from "bcryptjs";
 
 export const login = async (value: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(value);
@@ -17,6 +18,7 @@ export const login = async (value: z.infer<typeof LoginSchema>) => {
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
+    return { success: "Logged in successfully" };
   } catch (err) {
     if (err instanceof AuthError) {
       switch (err.type) {

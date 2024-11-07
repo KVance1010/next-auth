@@ -9,6 +9,7 @@ export default {
     Credentials({
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
+        console.log(validatedFields);
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
           const user = await getUserByEmail(email);
