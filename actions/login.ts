@@ -1,13 +1,12 @@
 "use server";
 import * as z from "zod";
-import { LoginSchema } from "@/schemas";
+import { LoginValidation } from "@/validation";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
-import bcrypt from "bcryptjs";
 
-export const login = async (value: z.infer<typeof LoginSchema>) => {
-  const validatedFields = LoginSchema.safeParse(value);
+export const login = async (value: z.infer<typeof LoginValidation>) => {
+  const validatedFields = LoginValidation.safeParse(value);
   if (!validatedFields.success) {
     return { error: "Invalid fields" };
   }

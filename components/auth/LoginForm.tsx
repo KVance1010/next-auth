@@ -1,6 +1,6 @@
 "use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { LoginSchema } from "@/schemas";
+import { LoginValidation } from "@/validation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,15 +23,15 @@ const LoginForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof LoginValidation>>({
+    resolver: zodResolver(LoginValidation),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof LoginValidation>) => {
     setError("");
     setSuccess("");
     startTransition(() => {

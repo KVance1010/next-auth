@@ -1,12 +1,14 @@
 "use server";
 import bcrypt from "bcryptjs";
-import { db } from "@/lib/db";
+import prisma from "@/prisma/dbConnection";
 import * as z from "zod";
-import { RegisterSchema } from "@/schemas";
-import { getUserByEmail, getUserById } from "@/data/user";
+import { RegisterValidation } from "@/validation";
+import { getUserByEmail } from "@/actions/user";
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
-export const register = async (value: z.infer<typeof RegisterSchema>) => {
-  const validatedFields = RegisterSchema.safeParse(value);
+export const register = async (value: z.infer<typeof RegisterValidation>) => {
+  const validatedFields = RegisterValidation.safeParse(value);
   if (!validatedFields.success) {
     return { error: "Invalid fields" };
   }
@@ -17,12 +19,18 @@ export const register = async (value: z.infer<typeof RegisterSchema>) => {
     return { error: "Email already exists" };
   }
 
-  await db.user.create({
+  await prisma.user.create({
     data: {
       email,
       password: hashedPassword,
       name,
     },
+  });
+  
+  await signIn("credentials", {
+    email,
+    password,
+    redirectTo: DEFAULT_LOGIN_REDIRECT,
   });
   // send email verification
   return { success: "signup successful" };
