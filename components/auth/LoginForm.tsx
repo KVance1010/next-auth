@@ -1,7 +1,6 @@
 "use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { LoginValidation } from "@/validation/schema";
-import * as z from "zod";
+import { LoginValidation, LoginType } from "@/validation/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -23,7 +22,7 @@ const LoginForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof LoginValidation>>({
+  const form = useForm<LoginType>({
     resolver: zodResolver(LoginValidation),
     defaultValues: {
       email: "",
@@ -31,7 +30,7 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginValidation>) => {
+  const onSubmit = (values: LoginType) => {
     setError("");
     setSuccess("");
     startTransition(() => {
@@ -45,7 +44,7 @@ const LoginForm = () => {
   return (
     <CardWrapper
       headerLabel="Welcome back"
-      backButtonHref="/auth/register"
+      backButtonHref="/register"
       backButtonLabel="Don't have an account?"
       showSocial
     >

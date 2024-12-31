@@ -1,7 +1,6 @@
 "use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { RegisterValidation } from "@/validation/schema";
-import * as z from "zod";
+import { RegistrationValidation, RegistrationType } from "@/validation/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -23,16 +22,18 @@ const RegisterForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof RegisterValidation>>({
-    resolver: zodResolver(RegisterValidation),
+  const form = useForm<RegistrationType>({
+    resolver: zodResolver(RegistrationValidation),
     defaultValues: {
       email: "",
       password: "",
-      name: "",
+      username: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterValidation>) => {
+  const onSubmit = (values: RegistrationType) => {
+    console.log("values", values);
     setError("");
     setSuccess("");
     startTransition(() => {
@@ -46,7 +47,7 @@ const RegisterForm = () => {
   return (
     <CardWrapper
       headerLabel="Create an account"
-      backButtonHref="/auth/login"
+      backButtonHref="/login"
       backButtonLabel="Already have an account?"
       showSocial
     >
@@ -55,15 +56,15 @@ const RegisterForm = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
+              name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>User Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="John Doe"
+                      placeholder="John4543"
                     />
                   </FormControl>
                   <FormMessage />
@@ -94,6 +95,24 @@ const RegisterForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      type="password"
+                      placeholder="********"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}

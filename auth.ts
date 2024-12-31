@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { LoginValidation } from "@/validation/schema";
-import { getUserByEmail } from "@/actions/user";
+import { getUserById } from "@/actions/user";
 import { Adapter } from "next-auth/adapters";
 import { randomUUID } from "crypto";
 
@@ -20,8 +20,28 @@ declare module "next-auth" {
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma) as Adapter,
-
+  events: {
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   callbacks: {
+    async signIn({ user, account }) {
+      // allow OAuth provider to sign in without email verification
+      if (account?.provider !== "credentials") return true;
+      // check if user exists
+      if (!user?.id) return false;
+      const existingUser = await getUserById(user.id);
+      // if the user email is not verified, return 
+      if (!existingUser?.emailVerified) return false;
+
+
+      // add 2fa check here
+      return true;
+    },
     async jwt({ account, user, token }) {
       if (account?.provider === "credentials") {
         const sessionToken = randomUUID();

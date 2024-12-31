@@ -1,3 +1,6 @@
+"use server";
+import prisma from "@/lib/dbConnection";
+
 export const getPasswordResetTokenByEmail = async (email: string) => {
     try {
       const passwordResetToken = await prisma.passwordResetToken.findFirst({

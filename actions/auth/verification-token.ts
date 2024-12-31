@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/lib/dbConnection";
 
 export const getVerificationTokenByToken = async (token: string) => {

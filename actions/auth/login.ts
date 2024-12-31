@@ -4,6 +4,8 @@ import { LoginValidation } from "@/validation/schema";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { generateVerificationToken } from "@/actions/auth/tokens";
+import { getUserByEmail } from "@/actions/user";
 
 export const login = async (value: z.infer<typeof LoginValidation>) => {
   const validatedFields = LoginValidation.safeParse(value);
@@ -11,6 +13,14 @@ export const login = async (value: z.infer<typeof LoginValidation>) => {
     return { error: "Invalid fields" };
   }
   const { email, password } = validatedFields.data;
+  const existingUser = await getUserByEmail(email);
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: "Invalid credentials" };
+  }
+  // if (!existingUser.emailVerified) {
+  //   const newToken = await generateVerificationToken(email);
+  //   return { error: "Email not verified" };
+  // }
   try {
     await signIn("credentials", {
       email,

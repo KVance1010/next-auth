@@ -1,10 +1,10 @@
 import z from 'zod'
 
-export const loginSchema = z.object({
+export const LoginValidation = z.object({
   email: z.string().min(1, { message: 'this field is required' }).email(),
   password: z.string().min(1, 'this field is required'),
 })
-export const registrationSchema = z
+export const RegistrationValidation = z
   .object({
     username: z.string().min(1, { message: 'this field is required' }),
     email: z.string().min(1, { message: 'this field is required' }).email(),
@@ -20,11 +20,11 @@ export const registrationSchema = z
       })
     }
   })
-export const resetSchema = z.object({
+export const ResetValidation = z.object({
   email: z.string().min(1, { message: 'this field is required' }).email(),
 })
 
-export const newPasswordSchema = z
+export const NewPasswordValidation = z
   .object({
     password: z.string().min(1, { message: 'this field is required' }),
     confirmPassword: z.string().min(1, 'this field is required'),
@@ -39,7 +39,7 @@ export const newPasswordSchema = z
     }
   })
 
-export type registrationType = z.infer<typeof registrationSchema>
-export type loginType = z.infer<typeof loginSchema>
-export type resetType = z.infer<typeof resetSchema>
-export type newPasswordType = z.infer<typeof newPasswordSchema>
+export type RegistrationType = z.infer<typeof RegistrationValidation>
+export type LoginType = z.infer<typeof LoginValidation>
+export type ResetType = z.infer<typeof ResetValidation>
+export type NewPasswordType = z.infer<typeof NewPasswordValidation>
