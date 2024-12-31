@@ -1,6 +1,6 @@
 "use server";
 import * as z from "zod";
-import { LoginValidation } from "@/validation";
+import { LoginValidation } from "@/validation/schema";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";

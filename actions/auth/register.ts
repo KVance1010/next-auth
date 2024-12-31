@@ -1,8 +1,8 @@
 "use server";
 import bcrypt from "bcryptjs";
-import prisma from "@/prisma/dbConnection";
+import prisma from "@/lib/dbConnection";
 import * as z from "zod";
-import { RegisterValidation } from "@/validation";
+import { RegisterValidation } from "@/validation/schema";
 import { getUserByEmail } from "@/actions/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";

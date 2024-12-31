@@ -16,7 +16,7 @@ enum UserRole {
 
 model User {
   id                    String                 @id @default(uuid())
-  name                  String?
+  username              String?
   email                 String                 @unique
   emailVerified         DateTime?
   image                 String?
@@ -64,12 +64,12 @@ model Session {
 }
 
 model VerificationToken {
-  email      String
-  identifier String
-  token      String
-  expires    DateTime
+  id      String   @id @default(cuid())
+  email   String
+  token   String
+  expires DateTime
 
-  @@id([identifier, token])
+  @@unique([email, token])
 }
 
 model PasswordResetToken {

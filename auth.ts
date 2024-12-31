@@ -1,11 +1,11 @@
 import NextAuth, { type DefaultSession } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@/prisma/dbConnection";
+import prisma from "@/lib/dbConnection";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { LoginValidation } from "@/validation";
+import { LoginValidation } from "@/validation/schema";
 import { getUserByEmail } from "@/actions/user";
 import { Adapter } from "next-auth/adapters";
 import { randomUUID } from "crypto";

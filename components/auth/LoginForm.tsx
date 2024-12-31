@@ -1,6 +1,6 @@
 "use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { LoginValidation } from "@/validation";
+import { LoginValidation } from "@/validation/schema";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { login } from "@/actions/login";
+import { login } from "@/actions/auth/login";
 import { useTransition, useState } from "react";
 
 const LoginForm = () => {
