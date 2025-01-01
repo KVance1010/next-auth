@@ -5,7 +5,7 @@ const conformationLink = process.env.WEBSITE_URL || "http://localhost:3000";
 
 export const sendVerificationEmail = async (email: string, token: string) => {
   console.log("resend", process.env.RESEND_EMAIL_ADDRESS);
-  const confirmationLink = `${conformationLink}/auth/verification?token=${token}`;
+  const confirmationLink = `${conformationLink}/verification?token=${token}`;
   await resend.emails.send({
     from: resendEmail,
     to: email,
@@ -15,7 +15,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendNewPasswordEmail = async (email: string, token: string) => {
-  const changePasswordLink = `${conformationLink}/auth/new-password?token=${token}`;
+  const changePasswordLink = `${conformationLink}/new-password?token=${token}`;
   await resend.emails.send({
     from: resendEmail,
     to: email,

@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { LoginValidation } from "@/validation/schema";
-import { getUserById } from "@/actions/user";
+import { getUserById, getUserByEmail } from "@/actions/user";
 import { Adapter } from "next-auth/adapters";
 import { randomUUID } from "crypto";
 
@@ -35,9 +35,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       // check if user exists
       if (!user?.id) return false;
       const existingUser = await getUserById(user.id);
-      // if the user email is not verified, return 
+      // if the user email is not verified, return
       if (!existingUser?.emailVerified) return false;
-
 
       // add 2fa check here
       return true;

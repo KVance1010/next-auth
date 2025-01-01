@@ -4,8 +4,8 @@ import prisma from "@/lib/dbConnection";
 import z from "zod";
 import { RegistrationValidation } from "@/validation/schema";
 import { getUserByEmail } from "@/actions/user";
-import { generateVerificationToken } from "@/actions/auth/tokens";
-import { sendVerificationEmail } from "@/lib/email";
+import { generateVerificationToken } from "@/actions/auth/token";
+import { sendVerificationEmail } from "@/email/email";
 
 export const register = async (
   value: z.infer<typeof RegistrationValidation>

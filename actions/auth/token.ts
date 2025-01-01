@@ -1,7 +1,6 @@
 "use server";
 import { randomUUID } from "crypto";
 import prisma from "@/lib/dbConnection";
-import { getVerificationTokenByEmail} from "@/actions/auth/verification-token";
 
 export const generateVerificationToken = async (email: string) => {
   const token = randomUUID();
@@ -19,8 +18,28 @@ export const generateVerificationToken = async (email: string) => {
       expires,
     },
   });
-  console.log("verificationToken", verificationToken);
   return verificationToken;
 };
 
 
+export const getVerificationTokenByToken = async (token: string) => {
+  try {
+    const verificationToken = await prisma.verificationToken.findUnique({
+      where: { token },
+    });
+    return verificationToken;
+  } catch {
+    return null;
+  }
+};
+
+export const getVerificationTokenByEmail = async (email: string) => {
+  try {
+    const verificationToken = await prisma.verificationToken.findFirst({
+      where: { email },
+    });
+    return verificationToken;
+  } catch {
+    return null;
+  }
+};
