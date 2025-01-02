@@ -1,6 +1,6 @@
 "use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { ResetValidation, ResetType } from "@/validation/schema";
+import { ResetValidation, ResetType } from "@/validationSchemas/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { passwordReset } from "@/actions/auth/reset";
+import { passwordResetRequest } from "@/actions/auth/reset";
 import { useTransition, useState } from "react";
 
 const ResetForm = () => {
@@ -33,7 +33,7 @@ const ResetForm = () => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      passwordReset(values).then((data) => {
+      passwordResetRequest(values).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });

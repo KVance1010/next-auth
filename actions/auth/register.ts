@@ -2,10 +2,10 @@
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/dbConnection";
 import z from "zod";
-import { RegistrationValidation } from "@/validation/schema";
+import { RegistrationValidation } from "@/validationSchemas/schemas";
 import { getUserByEmail } from "@/actions/user";
 import { generateVerificationToken } from "@/actions/auth/token";
-import { sendVerificationEmail } from "@/email/verification";
+import { sendVerificationEmail } from "@/emailTemplates/welcomeVerification";
 
 export const register = async (
   value: z.infer<typeof RegistrationValidation>
