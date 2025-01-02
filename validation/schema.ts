@@ -4,6 +4,7 @@ export const LoginValidation = z.object({
   email: z.string().min(1, { message: 'this field is required' }).email(),
   password: z.string().min(1, 'this field is required'),
 })
+
 export const RegistrationValidation = z
   .object({
     username: z.string().min(1, { message: 'this field is required' }),
@@ -20,6 +21,7 @@ export const RegistrationValidation = z
       })
     }
   })
+
 export const ResetValidation = z.object({
   email: z.string().min(1, { message: 'this field is required' }).email(),
 })

@@ -5,7 +5,7 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/actions/auth/token";
-import { sendVerificationEmail } from "@/email/email";
+import { sendVerificationEmail } from "@/email/verification";
 import { getUserByEmail } from "@/actions/user";
 
 export const login = async (value: z.infer<typeof LoginValidation>) => {

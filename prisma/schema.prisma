@@ -65,16 +65,20 @@ model Session {
 
 model VerificationToken {
   id      String   @id @default(cuid())
-  email   String   @unique
+  email   String
   token   String   @unique
   expires DateTime
+
+  @@unique([email, token])
 }
 
 model PasswordResetToken {
   id      String   @id @default(cuid())
-  email   String   @unique
+  email   String
   token   String   @unique
   expires DateTime
+
+  @@unique([email, token])
 }
 
 model TwoFactorToken {

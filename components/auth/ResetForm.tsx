@@ -1,6 +1,6 @@
 "use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { LoginValidation, LoginType } from "@/validation/schema";
+import { ResetValidation, ResetType } from "@/validation/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -15,33 +15,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { login } from "@/actions/auth/login";
+import { passwordReset } from "@/actions/auth/reset";
 import { useTransition, useState } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email already in use with different login method"
-      : "";
+const ResetForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<LoginType>({
-    resolver: zodResolver(LoginValidation),
+  const form = useForm<ResetType>({
+    resolver: zodResolver(ResetValidation),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = (values: LoginType) => {
+  const onSubmit = (values: ResetType) => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(values).then((data) => {
+      passwordReset(values).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });
@@ -50,10 +42,9 @@ const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Welcome back"
-      backButtonHref="/register"
-      backButtonLabel="Don't have an account?"
-      showSocial
+      headerLabel="Forgot your password?"
+      backButtonHref="/login"
+      backButtonLabel="Back to login"
     >
       <Form {...form}>
         <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
@@ -76,37 +67,11 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      type="password"
-                      placeholder="********"
-                    />
-                  </FormControl>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    <Link href="/reset">Forgot password?</Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
-            Login
+            Send Reset Email
           </Button>
         </form>
       </Form>
@@ -114,4 +79,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResetForm;

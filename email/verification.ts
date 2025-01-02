@@ -14,12 +14,3 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   });
 };
 
-export const sendNewPasswordEmail = async (email: string, token: string) => {
-  const changePasswordLink = `${conformationLink}/new-password?token=${token}`;
-  await resend.emails.send({
-    from: resendEmail,
-    to: email,
-    subject: "Forgot Password",
-    html: `<p> <a href=${changePasswordLink}>click here </a> to change your password</P>`,
-  });
-};
