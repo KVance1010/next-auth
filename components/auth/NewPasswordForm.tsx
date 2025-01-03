@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { passwordReset } from "@/actions/auth/reset";
+import { passwordReset } from "@/actions/auth/passwordReset";
 import { useTransition, useState } from "react";
 import { useSearchParams } from "next/navigation";
 

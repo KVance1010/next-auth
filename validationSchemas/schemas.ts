@@ -3,6 +3,7 @@ import z from 'zod'
 export const LoginValidation = z.object({
   email: z.string().min(1, { message: 'this field is required' }).email(),
   password: z.string().min(1, 'this field is required'),
+  code: z.optional(z.string().min(6, 'Minimum of 6 characters required')),
 })
 
 export const RegistrationValidation = z

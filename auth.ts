@@ -9,6 +9,7 @@ import { LoginValidation } from "@/validationSchemas/schemas";
 import { getUserById, getUserByEmail } from "@/actions/user";
 import { Adapter } from "next-auth/adapters";
 import { randomUUID } from "crypto";
+import { getTwoFactorConformationById } from "@/actions/auth/twoFactorAuth";
 
 declare module "next-auth" {
   interface Session {
@@ -38,7 +39,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       // if the user email is not verified, return
       if (!existingUser?.emailVerified) return false;
 
-      // add 2fa check here
+      // two-factor authentication
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConformationById(
+          existingUser.id
+        );
+
+        // delete two factor conformation for next sign in
+        if (!twoFactorConfirmation) return false;
+        await prisma.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id },
+        });
+      }
       return true;
     },
     async jwt({ account, user, token }) {

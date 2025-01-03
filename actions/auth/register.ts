@@ -4,7 +4,7 @@ import prisma from "@/lib/dbConnection";
 import z from "zod";
 import { RegistrationValidation } from "@/validationSchemas/schemas";
 import { getUserByEmail } from "@/actions/user";
-import { generateVerificationToken } from "@/actions/auth/token";
+import { generateVerificationToken } from "@/actions/auth/validation";
 import { sendVerificationEmail } from "@/emailTemplates/welcomeVerification";
 
 export const register = async (

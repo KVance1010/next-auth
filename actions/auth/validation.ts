@@ -5,6 +5,7 @@ import prisma from "@/lib/dbConnection";
 
 export const generateVerificationToken = async (email: string) => {
   const token = randomUUID();
+  // 1 hour token expiration
   const expires = new Date(new Date().getTime() + 3600 * 1000);
   const existingToken = await getVerificationTokenByEmail(email);
   if (existingToken) {

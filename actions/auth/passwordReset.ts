@@ -71,6 +71,7 @@ export const passwordReset = async (
 
 const generateResetToken = async (email: string) => {
   const token = randomUUID();
+  // 1 hour token expiration
   const expires = new Date(new Date().getTime() + 3600 * 1000);
   const existingToken = await getResetTokenByEmail(email);
   if (existingToken) {

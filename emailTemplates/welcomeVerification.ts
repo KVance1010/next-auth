@@ -4,7 +4,6 @@ const resendEmail = process.env.RESEND_EMAIL_ADDRESS || "onboarding@resend.dev";
 const conformationLink = process.env.WEBSITE_URL || "http://localhost:3000";
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  console.log("resend", process.env.RESEND_EMAIL_ADDRESS);
   const confirmationLink = `${conformationLink}/verification?token=${token}`;
   await resend.emails.send({
     from: resendEmail,
